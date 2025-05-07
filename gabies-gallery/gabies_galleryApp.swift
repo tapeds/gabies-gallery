@@ -11,7 +11,7 @@ import SwiftUI
 struct gabies_galleryApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
         }
     }
 }
