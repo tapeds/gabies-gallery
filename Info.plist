@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <!-- Required to request permission to access Apple Music -->
+    <key>NSAppleMusicUsageDescription</key>
+    <string>This app needs access to Apple Music to search and play previews.</string>
+
+    <!-- Required if you want background audio capabilities -->
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>audio</string>
+    </array>
+
+    <!-- MusicKit specific entitlements -->
+    <key>com.apple.developer.musickit</key>
+    <true/>
+
+    <!-- Optional: Include if your app uses push notifications -->
+    <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
+    
+    <!-- Optional: This will ensure the app can run in portrait/landscape modes -->
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <!-- Optional: Privacy settings related to location or other data collection -->
+    <!-- If your app collects any personal data, you may need to add additional keys for privacy. -->
+
+</dict>
+</plist>

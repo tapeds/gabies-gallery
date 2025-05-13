@@ -1,8 +1,16 @@
+//
+//  HomeView.swift
+//  gabies-gallery
+//
+//  Created by Farrell Matthew Lim on 09/05/25.
+//
+
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject var viewModel = BackgroundViewModel()
     @State private var isDoorOpened = false
+    @State private var startZoom = false
+    @Binding var showGallery: Bool
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -14,6 +22,7 @@ struct HomeView: View {
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                         .foregroundStyle(Color.black)
+                        .opacity(isDoorOpened ? 0 : 1)
 
                     ZStack {
                         if isDoorOpened {
@@ -21,13 +30,22 @@ struct HomeView: View {
                                 .transition(.opacity)
                         } else {
                             Button(action: {
-                                withAnimation {
+                                withAnimation(.easeInOut(duration: 0.5)) {
                                     isDoorOpened = true
                                 }
+
                                 DispatchQueue.main.asyncAfter(
-                                    deadline: .now() + 0.6
+                                    deadline: .now() + 0.5
                                 ) {
-                                    // navigateToGallery = true
+                                    withAnimation(.easeInOut(duration: 1.0)) {
+                                        startZoom = true
+                                    }
+
+                                    DispatchQueue.main.asyncAfter(
+                                        deadline: .now() + 0.6
+                                    ) {
+                                        showGallery = true
+                                    }
                                 }
                             }) {
                                 ClosedDoorView()
@@ -35,11 +53,14 @@ struct HomeView: View {
                             .buttonStyle(.plain)
                         }
                     }
-                }
+                }.zIndex(3)
 
-                FloorView(viewModel: viewModel)
+                FloorView()
             }
         }
+        .scaleEffect(startZoom ? 5 : 1)
+        .opacity(startZoom ? 0 : 1)
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -73,7 +94,7 @@ struct OpenedDoorView: View {
     var body: some View {
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 4)
-                .fill(Color.clear)
+                .fill(Color.black)
                 .border(Color(red: 45 / 255, green: 42 / 255, blue: 38 / 255))
             Rectangle()
                 .fill(Color(red: 45 / 255, green: 42 / 255, blue: 38 / 255))
@@ -84,5 +105,5 @@ struct OpenedDoorView: View {
 }
 
 #Preview {
-    HomeView()
+    HomeView(showGallery: .constant(false))
 }
