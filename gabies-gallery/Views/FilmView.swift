@@ -41,6 +41,10 @@ struct FilmView: View {
                                         zoomedItem = nil
                                         isZoomed = false
                                     } else {
+                                        guard zoomedItem == nil && !isZoomed
+                                        else {
+                                            return
+                                        }
                                         zoomedItem = film
                                         isZoomed = true
                                     }

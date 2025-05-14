@@ -15,6 +15,8 @@ struct PreloadedSong {
 
 @MainActor
 final class MusicViewModel: ObservableObject {
+    static let shared = MusicViewModel()
+    
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0),
     ]
@@ -26,7 +28,7 @@ final class MusicViewModel: ObservableObject {
 
     @Published var preloadedSongs: [PreloadedSong] = []
 
-    init() {
+    private init() {
         Task {
             await preloadSongs()
         }

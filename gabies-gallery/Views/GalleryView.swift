@@ -32,14 +32,15 @@ struct FrameView: View {
     var body: some View {
         Image(imageName)
             .resizable()
+            .scaledToFill()
             .frame(width: width, height: height)
+            .clipped() 
             .padding(20)
             .background(Color.white)
             .padding(5)
             .background(Color.brown)
             .cornerRadius(2)
-            .shadow(color: Color.black.opacity(0.1), radius: 8, x: 4, y: 4)
-    }
+            .shadow(color: Color.black.opacity(0.1), radius: 8, x: 4, y: 4)    }
 }
 
 struct DescriptionView: View {

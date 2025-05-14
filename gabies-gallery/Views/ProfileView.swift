@@ -9,6 +9,7 @@ import SwiftUI
 struct ProfileView: View {
     @Binding var isZoomed: Bool
     @State private var showFloor = false
+    @StateObject private var musicViewModel = MusicViewModel.shared
 
     var body: some View {
         GalleryView(item: MockData.ProfileData, width: 200, height: 200)

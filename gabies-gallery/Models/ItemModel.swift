@@ -31,7 +31,7 @@ struct MockData {
         description:
             "Gabie loves music, movies, and gaming, with an interest in Korean culture. She's skilled in coding and passionate about makeup and skincare.",
         musicSearch: nil,
-        imageName: ""
+        imageName: "gabie"
     )
 
     static let MusicData = [

@@ -12,10 +12,10 @@ struct ContentView: View {
     @State private var isZoomed = false
     @State private var currentView: GalleryView = .profile
 
-    enum GalleryView {
-        case profile
-        case music
-        case film
+    enum GalleryView: Int, CaseIterable {
+        case film = 0
+        case profile = 1
+        case music = 2
     }
 
     var body: some View {
@@ -45,16 +45,7 @@ struct ContentView: View {
                     currentView: $currentView,
                     isZoomed: $isZoomed
                 )
-                .transition(
-                    .asymmetric(
-                        insertion: .scale(scale: 0.95)
-                            .animation(
-                                .spring()
-                            ),
-                        removal: .opacity
-                            .animation(.easeOut(duration: 0.3))
-                    )
-                )
+                .transition(.opacity)
             }
         }
         .edgesIgnoringSafeArea(.all)
@@ -66,53 +57,18 @@ struct GalleryContainerView: View {
     @Binding var isZoomed: Bool
 
     var body: some View {
-        GeometryReader { geometry in
-            HStack(spacing: 0) {
-                FilmView(isZoomed: $isZoomed)
-                    .frame(width: geometry.size.width)
-                    .frame(maxHeight: .infinity)
+        TabView(selection: $currentView) {
+            FilmView(isZoomed: $isZoomed)
+                .tag(ContentView.GalleryView.film)
 
-                ProfileView(isZoomed: $isZoomed)
-                    .frame(width: geometry.size.width)
-                    .frame(maxHeight: .infinity)
+            ProfileView(isZoomed: $isZoomed)
+                .tag(ContentView.GalleryView.profile)
 
-                MusicView(isZoomed: $isZoomed)
-                    .frame(width: geometry.size.width)
-                    .frame(maxHeight: .infinity)
-
-            }
-            .offset(
-                x: currentView == .profile
-                    ? -geometry.size.width
-                    : currentView == .film ? 0 : -2 * geometry.size.width
-            )
-            .animation(.spring(), value: currentView)
-            .gesture(
-                DragGesture()
-                    .onEnded { gesture in
-                        if !isZoomed {
-                            if gesture.translation.width < -50
-                                && currentView == .profile
-                            {
-                                currentView = .music
-                            } else if gesture.translation.width > 50
-                                && currentView == .profile
-                            {
-                                currentView = .film
-                            } else if gesture.translation.width < -50
-                                && currentView == .film
-                            {
-                                currentView = .profile
-                            } else if gesture.translation.width > 50
-                                && currentView == .music
-                            {
-                                currentView = .profile
-                            }
-                        }
-                    }
-            )
+            MusicView(isZoomed: $isZoomed)
+                .tag(ContentView.GalleryView.music)
         }
-        .padding(.bottom, isZoomed ? 0 : 20)
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .offset(y: isZoomed ? 0 : -30)
     }
 }
 
